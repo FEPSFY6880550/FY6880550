@@ -213,32 +213,26 @@
   window.onload = getLastUpdatedTime;
 </script>
 
-<p id="totalWordCount"></p>
-<hr>
 <script>
-function displayWordCount(sectionId) {
-    const text = document.getElementById(sectionId)?.textContent || '';
-    const wordArray = text.trim().split(/\s+/).filter(word => word);
-    return wordArray.length;
+function displayWordCount(sectionIds) {
+    let totalWords = 0;
+
+    sectionIds.forEach(sectionId => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            const text = element.textContent || '';
+            const wordArray = text.trim().split(/\s+/).filter(word => word);
+            totalWords += wordArray.length;
+            element.innerHTML += `<p>Word count: ${wordArray.length}</p>`;
+        }
+    });
+
+    return totalWords;
 }
 
 function displayTotalWordCount() {
-    const abstractCount = displayWordCount("abstract");
-    const introCount = displayWordCount("intro");
-    const WLPCount = displayWordCount("WLP");
-    const TSCount = displayWordCount("TS");
-    const VARCount = displayWordCount("VAR");
-    const GTCount = displayWordCount("GT");
-    const conclusionCount = displayWordCount("conclusion");
-    const totalWordCount = abstractCount + introCount + WLPCount + TSCount + VARCount + GTCount + conclusionCount;
-
-    document.getElementById("abstract").innerHTML += `<p>Word count: ${abstractCount}</p>`;
-    document.getElementById("intro").innerHTML += `<p>Word count: ${introCount}</p>`;
-    document.getElementById("WLP").innerHTML += `<p>Word count: ${WLPCount}</p>`;
-    document.getElementById("TS").innerHTML += `<p>Word count: ${TSCount}</p>`;
-    document.getElementById("VAR").innerHTML += `<p>Word count: ${VARCount}</p>`;
-    document.getElementById("GT").innerHTML += `<p>Word count: ${GTCount}</p>`;
-    document.getElementById("conclusion").innerHTML += `<p>Word count: ${conclusionCount}</p>`;
+    const sectionIds = ["abstract", "intro", "WLP", "TS", "VAR", "GT", "conclusion"];
+    const totalWordCount = displayWordCount(sectionIds);
     document.getElementById("totalWordCount").innerText = `Total word count: ${totalWordCount}`;
 }
 
